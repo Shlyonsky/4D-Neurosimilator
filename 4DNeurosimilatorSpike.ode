@@ -1,0 +1,30 @@
+# Fourth order Neurosimilator
+#
+init v=0.0 w=0.0 k=0.0 y=0.0
+#
+par input=0.4 
+par Vth=0.7 Vref1=3.6 Vref2=0.95 Vs=10.0
+par A=50 B=0.16 C=0.00005 D=20 E=500 F=31.5 G=1.5
+#
+H1 = E*(k-Vth)*heav(k-Vth)
+H2 = F*(heav(v-Vref1)*Vs-k)
+H3 = F*(Vth-k)*heav(k-Vth)
+H4 = min(4.0, (E*(Vs-Vth))*heav(y-Vref2)) 
+
+v' = input + (A-B)*v - (A+1)*w - B*y - H1 - H4
+w' = (A+1)*(v - w) - C*(exp(D*w) - 1.0)
+k' = H2 + H3 
+y' = G*(v - y)
+#
+# options
+@ dt=.000005, total=5, xplot=t,yplot=v, axes=2d
+@ xlo=0,ylo=-1.5,xhi=5,yhi=4.5
+@ runnow=1
+done
+
+
+
+
+
+
+
